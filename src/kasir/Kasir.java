@@ -5,11 +5,13 @@
  */
 package kasir;
 
-import Data.DataKasir;
+
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,8 +28,9 @@ public class Kasir extends javax.swing.JFrame {
     private static ArrayList<ModelKasir> dataList = new ArrayList<>();
     DefaultListModel mdlNamaBarang = new DefaultListModel();
     DefaultListModel mdlJumlahHarga = new DefaultListModel();
+    JList listBarangHarga = new JList(mdlJumlahHarga);
     int baris =0;
-    static Object kolom [] = {"ID","jumlah Item","Total Harga","Tanggal"};
+    static Object kolom [] = {"No.","jumlah Item","Total Harga","Tanggal"};
     DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
     /**
      * Creates new form kasir
@@ -53,9 +56,8 @@ public class Kasir extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tPembelian = new javax.swing.JTable();
         addHargaJumlah = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tSearch = new javax.swing.JTextField();
+        btnBayar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         tTotalHarga = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -66,6 +68,8 @@ public class Kasir extends javax.swing.JFrame {
         lNamaBarang = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         lHargaJumlah = new javax.swing.JList<>();
+        btnDeleteRow = new javax.swing.JButton();
+        btnClearTable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
 
@@ -104,12 +108,16 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon("D:\\mata kuliah\\UIUX\\tugas\\Search.png")); // NOI18N
+        tSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tSearchKeyReleased(evt);
+            }
+        });
 
-        jButton2.setText("Bayar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnBayar.setText("Bayar");
+        btnBayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnBayarActionPerformed(evt);
             }
         });
 
@@ -117,16 +125,6 @@ public class Kasir extends javax.swing.JFrame {
 
         jLabel4.setText("Bayar");
 
-        tBayar.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                tBayarComponentAdded(evt);
-            }
-        });
-        tBayar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tBayarActionPerformed(evt);
-            }
-        });
         tBayar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tBayarKeyReleased(evt);
@@ -155,22 +153,23 @@ public class Kasir extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(lNamaBarang);
 
-        lHargaJumlah.setBackground(new java.awt.Color(51, 51, 255));
-        lHargaJumlah.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lHargaJumlah.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                lHargaJumlahAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
+        lHargaJumlah.setBackground(new java.awt.Color(255, 255, 255));
+        lHargaJumlah.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane3.setViewportView(lHargaJumlah);
+
+        btnDeleteRow.setText("delete");
+        btnDeleteRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteRowActionPerformed(evt);
+            }
+        });
+
+        btnClearTable.setText("clear");
+        btnClearTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearTableActionPerformed(evt);
+            }
+        });
 
         jMenu3.setText("File");
         jMenuBar1.add(jMenu3);
@@ -181,10 +180,9 @@ public class Kasir extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -193,87 +191,94 @@ public class Kasir extends javax.swing.JFrame {
                                         .addGap(54, 54, 54)
                                         .addComponent(jLabel1))
                                     .addComponent(addHargaJumlah))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
+                                    .addComponent(tSearch)
                                     .addComponent(jScrollPane2))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)))
+                                .addGap(79, 79, 79)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(89, 89, 89)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tJumlahHarga)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(54, 54, 54)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2)
-                                    .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
-                                .addGap(50, 50, 50)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tTotalHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                                    .addComponent(tBayar))))))
+                                    .addComponent(tJumlahHarga)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(54, 54, 54)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnBayar)
+                                            .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel3))
+                                        .addGap(50, 50, 50)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(tTotalHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                            .addComponent(tBayar)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jLabel2))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDeleteRow)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClearTable)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(tBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(14, 14, 14)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tJumlahHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(tJumlahHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(tSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(14, 14, 14)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(tTotalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(tBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnBayar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addHargaJumlah)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                .addGap(46, 46, 46))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeleteRow)
+                    .addComponent(btnClearTable))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-
+        
         String[] listBarang = getListBarang();
         for (int i = 0;i<listBarang.length;i++){
             mdlNamaBarang.addElement(listBarang[i]);
@@ -316,27 +321,9 @@ public class Kasir extends javax.swing.JFrame {
             
             }
         }
-        int hasil = 0;
-        for (int harga : tHarga){
-                hasil += harga;
-            }
-        tTotalHarga.setText(""+hasil);
-        
-        
+        int hasil = getTotal();
+        tTotalHarga.setText(""+hasil);  
     }//GEN-LAST:event_addHargaJumlahActionPerformed
-
-    private void lHargaJumlahAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_lHargaJumlahAncestorAdded
-        // TODO add your handling code her
-    }//GEN-LAST:event_lHargaJumlahAncestorAdded
-
-    private void tBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tBayarActionPerformed
-     // TODO add your handling code here:
-        
-    }//GEN-LAST:event_tBayarActionPerformed
-
-    private void tBayarComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tBayarComponentAdded
-        
-    }//GEN-LAST:event_tBayarComponentAdded
 
     private void tBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tBayarKeyReleased
         // TODO add your handling code here:
@@ -348,24 +335,68 @@ public class Kasir extends javax.swing.JFrame {
         tKembalian.setText(String.valueOf(kembalian));
     }//GEN-LAST:event_tBayarKeyReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int hasil = 0;
-        for (int harga : tHarga){
-                hasil += harga;
-            }
-        tTotalHarga.setText(""+hasil);
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        String total_harga = tTotalHarga.getText().toString();
+        Date tgl = new Date();
+        int hasil;
         int total_item;
+        int row;
+        row = tbl.getRowCount()+1;
+        hasil = getTotal();
         total_item = tHarga.size();
-        
-        tbl.addRow(new Object[]{total_item,hasil});
+        if(total_harga.equals("")){
+            JOptionPane.showMessageDialog(this, "Data masih kosong");
+        }else{
+        tbl.addRow(new Object[]{row,total_item,hasil,tgl});
         tPembelian.setModel(tbl);
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+        tTotalHarga.setText("");
+        tBayar.setText("");
+        tKembalian.setText("");
+        clear();
+        tHarga.removeAll(tHarga);
+        }
+    }//GEN-LAST:event_btnBayarActionPerformed
 
     private void tKembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKembalianActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tKembalianActionPerformed
+
+    private void tSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tSearchKeyReleased
+
+        clearListBarang();
+        String[] listBarang = getListBarang();
+        String cari = tSearch.getText();
+        for (int i =0;i<listBarang.length;i++){
+            if (containsIgnoreCase(listBarang[i],cari)){
+                mdlNamaBarang.addElement(listBarang[i]);
+                lNamaBarang.setModel(mdlNamaBarang);
+            }
+        }
+    }//GEN-LAST:event_tSearchKeyReleased
+
+    private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
+        if (tPembelian.isRowSelected(baris)){
+           int baris = tPembelian.getSelectedRow();
+        int jwb = JOptionPane.showConfirmDialog(this, "Delete?");
+        switch(jwb){
+            case JOptionPane.YES_OPTION:
+                tbl.removeRow(baris);
+                break;
+            case JOptionPane.NO_OPTION:
+                break;
+        } 
+        }else{
+            btnDeleteRow.enable(false);
+        }
+        
+        
+    }//GEN-LAST:event_btnDeleteRowActionPerformed
+
+    private void btnClearTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTableActionPerformed
+        tbl.getDataVector().removeAllElements();
+        tbl.fireTableDataChanged();
+    }//GEN-LAST:event_btnClearTableActionPerformed
 
     /**
      * @param args the command line arguments
@@ -453,14 +484,37 @@ public class Kasir extends javax.swing.JFrame {
         return kembali;
     }
    
-//    public static int getTotal(Integer arrHarga[]){
-//        
-//        return hasil;
-//    }
+    public static int getTotal() {
+        int hasil = 0;
+        for (int harga : tHarga){
+                hasil += harga;
+            }
+        return hasil;
+    }
+
+        public void clear(){
+         if(mdlJumlahHarga.size() > 0){
+         mdlJumlahHarga.removeAllElements();
+         mdlJumlahHarga.clear();
+         listBarangHarga.removeAll();
+         }
+        }
+    public void clearListBarang(){
+         if(mdlNamaBarang.size() > 0){
+         mdlNamaBarang.removeAllElements();
+         mdlNamaBarang.clear();
+         lNamaBarang.removeAll();
+         }
+        }
+    
+    public static boolean containsIgnoreCase(String str, String subString) {
+        return str.toLowerCase().contains(subString.toLowerCase());
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addHargaJumlah;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnBayar;
+    private javax.swing.JButton btnClearTable;
+    private javax.swing.JButton btnDeleteRow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -473,13 +527,13 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList<String> lHargaJumlah;
     private javax.swing.JList<String> lNamaBarang;
     private javax.swing.JTextField tBayar;
     private javax.swing.JTextField tJumlahHarga;
     private javax.swing.JTextField tKembalian;
     private javax.swing.JTable tPembelian;
+    private javax.swing.JTextField tSearch;
     private javax.swing.JTextField tTotalHarga;
     // End of variables declaration//GEN-END:variables
 }
