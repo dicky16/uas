@@ -6,7 +6,7 @@
 package kasir;
 
 
-
+import home.Home;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,13 +25,14 @@ public class Kasir extends javax.swing.JFrame {
 //    static int byr;
 //    static int ttl;
     static List <Integer> tHarga = new ArrayList<Integer>();
-    private static ArrayList<ModelKasir> dataList = new ArrayList<>();
     DefaultListModel mdlNamaBarang = new DefaultListModel();
     DefaultListModel mdlJumlahHarga = new DefaultListModel();
     JList listBarangHarga = new JList(mdlJumlahHarga);
     int baris =0;
-    static Object kolom [] = {"No.","jumlah Item","Total Harga","Tanggal"};
+    static Object kolom [] = {"jumlah Item","Total Harga","Tanggal"};
     DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
+    List <String> ArrayBarang = new ArrayList<String>();
+    ArrayList<Integer> listTable = new ArrayList<>();
     /**
      * Creates new form kasir
      */
@@ -68,10 +69,12 @@ public class Kasir extends javax.swing.JFrame {
         lNamaBarang = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         lHargaJumlah = new javax.swing.JList<>();
-        btnDeleteRow = new javax.swing.JButton();
         btnClearTable = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnDeleteListBarang = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
+        jmenu = new javax.swing.JMenu();
+        mMenu = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -157,13 +160,6 @@ public class Kasir extends javax.swing.JFrame {
         lHargaJumlah.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane3.setViewportView(lHargaJumlah);
 
-        btnDeleteRow.setText("delete");
-        btnDeleteRow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteRowActionPerformed(evt);
-            }
-        });
-
         btnClearTable.setText("clear");
         btnClearTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,8 +167,31 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
-        jMenu3.setText("File");
-        jMenuBar1.add(jMenu3);
+        btnDelete.setText("delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnDeleteListBarang.setText("clear");
+        btnDeleteListBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteListBarangActionPerformed(evt);
+            }
+        });
+
+        jmenu.setText("File");
+
+        mMenu.setText("Menu");
+        mMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mMenuMousePressed(evt);
+            }
+        });
+        jmenu.add(mMenu);
+
+        jMenuBar1.add(jmenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -220,15 +239,17 @@ public class Kasir extends javax.swing.JFrame {
                                             .addComponent(tBayar)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(90, 90, 90)
-                                .addComponent(jLabel2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDeleteRow)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClearTable)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel2))
+                            .addComponent(btnDeleteListBarang)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnClearTable)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -264,13 +285,15 @@ public class Kasir extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnBayar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addHargaJumlah)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addHargaJumlah)
+                    .addComponent(btnDeleteListBarang))
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDeleteRow)
-                    .addComponent(btnClearTable))
+                    .addComponent(btnClearTable)
+                    .addComponent(btnDelete))
                 .addContainerGap())
         );
 
@@ -286,7 +309,6 @@ public class Kasir extends javax.swing.JFrame {
         } 
         tTotalHarga.setEditable(false);
         tKembalian.setEditable(false);
-        
         tPembelian.setModel(tbl);
     }//GEN-LAST:event_formComponentShown
 
@@ -341,21 +363,22 @@ public class Kasir extends javax.swing.JFrame {
         int hasil;
         int total_item;
         int row;
-        row = tbl.getRowCount()+1;
         hasil = getTotal();
         total_item = tHarga.size();
+        
         if(total_harga.equals("")){
             JOptionPane.showMessageDialog(this, "Data masih kosong");
         }else{
-        tbl.addRow(new Object[]{row,total_item,hasil,tgl});
-        tPembelian.setModel(tbl);
-        
+            tbl.addRow(new Object[]{total_item,hasil,tgl});
+            tPembelian.setModel(tbl); 
         tTotalHarga.setText("");
         tBayar.setText("");
         tKembalian.setText("");
         clear();
         tHarga.removeAll(tHarga);
         }
+        
+        
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void tKembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKembalianActionPerformed
@@ -375,28 +398,34 @@ public class Kasir extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tSearchKeyReleased
 
-    private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
-        if (tPembelian.isRowSelected(baris)){
-           int baris = tPembelian.getSelectedRow();
-        int jwb = JOptionPane.showConfirmDialog(this, "Delete?");
-        switch(jwb){
-            case JOptionPane.YES_OPTION:
-                tbl.removeRow(baris);
-                break;
-            case JOptionPane.NO_OPTION:
-                break;
-        } 
-        }else{
-            btnDeleteRow.enable(false);
-        }
-        
-        
-    }//GEN-LAST:event_btnDeleteRowActionPerformed
-
     private void btnClearTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTableActionPerformed
         tbl.getDataVector().removeAllElements();
         tbl.fireTableDataChanged();
     }//GEN-LAST:event_btnClearTableActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int  baris = tPembelian.getSelectedRow();
+        tbl.removeRow(baris);
+        listTable.remove(baris);
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnDeleteListBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteListBarangActionPerformed
+        // TODO add your handling code here:
+        tTotalHarga.setText("");
+        tBayar.setText("");
+        tKembalian.setText("");
+        clear();
+        tHarga.removeAll(tHarga);
+    }//GEN-LAST:event_btnDeleteListBarangActionPerformed
+
+    private void mMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mMenuMousePressed
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setLocationRelativeTo(this);
+        this.setVisible(false);
+        home.setVisible(true);
+    }//GEN-LAST:event_mMenuMousePressed
 
     /**
      * @param args the command line arguments
@@ -514,7 +543,8 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JButton addHargaJumlah;
     private javax.swing.JButton btnBayar;
     private javax.swing.JButton btnClearTable;
-    private javax.swing.JButton btnDeleteRow;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteListBarang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -522,13 +552,14 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JMenu jmenu;
     private javax.swing.JList<String> lHargaJumlah;
     private javax.swing.JList<String> lNamaBarang;
+    private javax.swing.JMenuItem mMenu;
     private javax.swing.JTextField tBayar;
     private javax.swing.JTextField tJumlahHarga;
     private javax.swing.JTextField tKembalian;
