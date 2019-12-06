@@ -5,7 +5,15 @@
  */
 package tiket;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static tiket.Data.ArrJumlahTiket;
+import static tiket.Data.ArrSubTotal;
+import static tiket.Data.ArrTanggal;
+import static tiket.Data.jenisWisata;
+import static tiket.Fungsi.delAll;
+import static tiket.Fungsi.delArray;
+
 
 /**
  *
@@ -13,9 +21,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DataPembelian extends javax.swing.JFrame {
     
-    DefaultTableModel tbl = new DefaultTableModel();
     int baris = 0;
-    static Object kolom [] = {"Total Harga"};
+    static Object kolom [] = {"No.","Jenis","Jumlah","Total Harga","Tanggal"};
+    DefaultTableModel tbl = new DefaultTableModel(kolom,baris);;
     /**
      * Creates new form DataPengunjung
      */
@@ -34,10 +42,16 @@ public class DataPembelian extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPembelian = new javax.swing.JTable();
+        btnClear = new javax.swing.JButton();
+        btnDel = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         tblPembelian.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -50,32 +64,93 @@ public class DataPembelian extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblPembelian.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tblPembelianComponentShown(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPembelian);
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
+        btnDel.setText("Delete");
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClear)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDel)
+                    .addComponent(btnClear))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblPembelianComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tblPembelianComponentShown
+        
+        
+    }//GEN-LAST:event_tblPembelianComponentShown
+
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        int  baris = tblPembelian.getSelectedRow();
+        tbl.removeRow(baris);
+        delArray(baris);
+    }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        tbl.getDataVector().removeAllElements();
+        delAll();
+        tbl.fireTableDataChanged();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+       tblPembelian.setModel(tbl);
+        String jns = null,tgl = null;
+        int subs = 0,jml = 0;
+        int no;
+        if(jenisWisata.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Data Kosong");
+        }else{
+            for(int i = 0;i<jenisWisata.size();i++){
+                no = i+1;
+                jns=jenisWisata.get(i);
+                subs=ArrSubTotal.get(i);
+                jml=ArrJumlahTiket.get(i);
+                tgl=ArrTanggal.get(i);
+                tbl.addRow(new Object[]{no,jns,jml,subs,tgl});
+        }
+        }
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -114,7 +189,8 @@ public class DataPembelian extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnDel;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPembelian;

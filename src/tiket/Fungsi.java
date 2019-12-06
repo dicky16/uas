@@ -5,6 +5,10 @@
  */
 package tiket;
 
+import static tiket.Data.jenisWisata;
+import static tiket.Data.ArrSubTotal;
+import static tiket.Data.ArrJumlahTiket;
+import static tiket.Data.ArrTanggal;
 /**
  *
  * @author djavu
@@ -23,6 +27,26 @@ public class Fungsi {
        int total = a+b+c;
        return total;
    } 
+   
+   public static void setArray(String jenis,String tgl, int subs, int jumlah){
+        jenisWisata.add(jenis);
+        ArrSubTotal.add(subs);
+        ArrJumlahTiket.add(jumlah);
+        ArrTanggal.add(tgl);
+   }
+   public static void delArray(int i){
+        jenisWisata.remove(i);
+        ArrSubTotal.remove(i);
+        ArrJumlahTiket.remove(i);
+        ArrTanggal.remove(i);
+   }
+   public static void delAll(){
+        jenisWisata.removeAll(jenisWisata);
+        ArrSubTotal.removeAll(ArrSubTotal);
+        ArrJumlahTiket.removeAll(ArrJumlahTiket);
+        ArrTanggal.removeAll(ArrTanggal);
+   }
+   
 }
 
 

@@ -6,7 +6,7 @@
 package tiket;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  *
@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class Data {
     public static ArrayList<String> jenisWisata = new ArrayList<>();
-     public static ArrayList<Integer> ArrSubTotal = new ArrayList<>();
-      public static ArrayList<Integer> ArrJumlahTiket = new ArrayList<>();
-       public static ArrayList<String> ArrTanggal = new ArrayList<>();
+    public static ArrayList<Integer> ArrSubTotal = new ArrayList<>();
+    public static ArrayList<Integer> ArrJumlahTiket = new ArrayList<>();
+    public static ArrayList<String> ArrTanggal = new ArrayList<>();
     
 }
