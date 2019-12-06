@@ -221,49 +221,72 @@ public class JTP2 extends javax.swing.JFrame {
         jenis1 = cTiket1.getText();
         jenis2 = cTiket2.getText();
         jenis3 = cTiket3.getText();
-
+        if(jml==0||jml2==0||jml3==0){
+            JOptionPane.showMessageDialog(this, "Jumlah tiket kosong !");
+        }
+        if(txtTotal.getText().equals("0")){
+            JOptionPane.showMessageDialog(this, "Silahkan hitung terlebih dahulu !");
+        }else{
         if(cTiket1.isSelected()&&cTiket2.isSelected()&&cTiket3.isSelected()){
             jumlah = getTotal(jml,jml2,jml3);
             jenis = jenis1+","+jenis2+","+jenis3;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
             jumlah = getJumlah(jml,jml2);
             jenis = jenis1+","+jenis2;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+           JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
             jumlah = getJumlah(jml,jml3);
             jenis = jenis1+","+jenis3;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+           JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()){
             jumlah = jml;
             jenis = jenis1;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+           JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else if(cTiket2.isSelected()){
             jumlah = jml2;
             jenis = jenis2;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else if(cTiket3.isSelected()){
             jumlah = jml3;
             jenis = jenis3;
             tgl = date.toString();
             subs = Integer.parseInt(txtTotal.getText());
             setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Success");
+           JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
+            +"Jumlah Tiket : "+jumlah+"\n"
+            +"Total : "+subs+"\n"
+            +"Tanggal Pembelian : "+tgl);
         }else{
             JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
         }
@@ -278,6 +301,7 @@ public class JTP2 extends javax.swing.JFrame {
         cTiket2.setSelected(false);
         cTiket3.setSelected(false);
         txtTotal.setEditable(false);
+        }
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
@@ -313,25 +337,40 @@ public class JTP2 extends javax.swing.JFrame {
 
     private void txtJumlahTiket1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket1KeyReleased
 
-        int hrg = Integer.parseInt(lblTiket1.getText());
+         if(txtJumlahTiket1.getText().equals("")){
+              txtJumlahTiket1.setText("0");
+           txtSubTiket1.setText("0");
+       }else{
+           int hrg = Integer.parseInt(lblTiket1.getText());
         int jml = Integer.parseInt(txtJumlahTiket1.getText());
         int sub_total = getSubTotal(jml,hrg);
         txtSubTiket1.setText(""+sub_total);
+       }
     }//GEN-LAST:event_txtJumlahTiket1KeyReleased
 
     private void txtJumlahTiket2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket2KeyReleased
         // TODO add your handling code here:
+         if(txtJumlahTiket2.getText().equals("")){
+              txtJumlahTiket2.setText("0");
+           txtSubTiket2.setText("0");
+       }else{
         int hrg = Integer.parseInt(lblTiket2.getText());
         int jml = Integer.parseInt(txtJumlahTiket2.getText());
         int sub_total = getSubTotal(jml,hrg);
         txtSubTiket2.setText(""+sub_total);
+        }
     }//GEN-LAST:event_txtJumlahTiket2KeyReleased
 
     private void txtJumlahTiket3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket3KeyReleased
+        if(txtJumlahTiket3.getText().equals("")){
+             txtJumlahTiket3.setText("0");
+           txtSubTiket3.setText("0");
+       }else{
         int hrg = Integer.parseInt(lblTiket3.getText());
         int jml = Integer.parseInt(txtJumlahTiket3.getText());
         int sub_total = getSubTotal(jml,hrg);
         txtSubTiket3.setText(""+sub_total);
+        }
     }//GEN-LAST:event_txtJumlahTiket3KeyReleased
 
     private void cTiket1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTiket1ActionPerformed

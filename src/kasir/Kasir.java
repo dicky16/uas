@@ -183,7 +183,7 @@ public class Kasir extends javax.swing.JFrame {
 
         jmenu.setText("File");
 
-        mMenu.setText("Menu");
+        mMenu.setText("Home");
         mMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 mMenuMousePressed(evt);
