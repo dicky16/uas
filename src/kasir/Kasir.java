@@ -80,7 +80,7 @@ public class Kasir extends javax.swing.JFrame {
 
         jMenu2.setText("jMenu2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -415,6 +415,7 @@ public class Kasir extends javax.swing.JFrame {
         home.setLocationRelativeTo(this);
         this.setVisible(false);
         home.setVisible(true);
+        
     }//GEN-LAST:event_mMenuMousePressed
 
     /**
