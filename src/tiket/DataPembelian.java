@@ -5,13 +5,21 @@
  */
 package tiket;
 
-
-
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import static tiket.Data.ArrJumlahTiket;
 import static tiket.Data.ArrSubTotal;
 import static tiket.Data.ArrTanggal;
@@ -21,18 +29,17 @@ import static tiket.Fungsi.delArray;
 import static tiket.Fungsi.setIDR;
 import static tiket.Fungsi.setKolom;
 
-
-
-
 /**
  *
  * @author djavu
  */
 public class DataPembelian extends javax.swing.JFrame {
-    
+
     int baris = 0;
-    static Object kolom [] = {"No.","Jenis","Jumlah","Total Harga","Tanggal"};
-    DefaultTableModel tbl = new DefaultTableModel(kolom,baris);;
+    static Object kolom[] = {"No.", "Jenis", "Jumlah", "Total Harga", "Tanggal"};
+    DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
+
+    ;
     /**
      * Creates new form DataPengunjung
      */
@@ -53,6 +60,7 @@ public class DataPembelian extends javax.swing.JFrame {
         tblPembelian = new javax.swing.JTable();
         btnClear = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -88,6 +96,13 @@ public class DataPembelian extends javax.swing.JFrame {
                 btnDelActionPerformed(evt);
             }
         });
+
+        btnExport.setText("Export (Excel)");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -99,8 +114,10 @@ public class DataPembelian extends javax.swing.JFrame {
                 .addComponent(btnDel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClear)
-                .addContainerGap(812, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExport)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +127,8 @@ public class DataPembelian extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDel)
-                    .addComponent(btnClear))
+                    .addComponent(btnClear)
+                    .addComponent(btnExport))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -119,11 +137,27 @@ public class DataPembelian extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
-        int  baris = tblPembelian.getSelectedRow();
-        if(tblPembelian.isRowSelected(baris)){
+        int baris = tblPembelian.getSelectedRow();
+        if (tblPembelian.isRowSelected(baris)) {
             tbl.removeRow(baris);
         }
         delArray(baris);
+        tbl.getDataVector().removeAllElements();
+        String jns = null, tgl = null;
+        int subs = 0, jml = 0;
+        int no;
+        if (jenisWisata.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Data Kosong");
+        } else {
+            for (int i = 0; i < jenisWisata.size(); i++) {
+                no = i + 1;
+                jns = jenisWisata.get(i);
+                subs = ArrSubTotal.get(i);
+                jml = ArrJumlahTiket.get(i);
+                tgl = ArrTanggal.get(i);
+                tbl.addRow(new Object[]{no, jns, jml, setIDR(subs), tgl});
+            }
+        }
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -133,25 +167,75 @@ public class DataPembelian extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        
+
         tblPembelian.setModel(tbl);
         setKolom(tblPembelian);
-        String jns = null,tgl = null;
-        int subs = 0,jml = 0;
+        String jns = null, tgl = null;
+        int subs = 0, jml = 0;
         int no;
-        if(jenisWisata.isEmpty()){
+        if (jenisWisata.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Data Kosong");
-        }else{
-            for(int i = 0;i<jenisWisata.size();i++){
-                no = i+1;
-                jns=jenisWisata.get(i);
-                subs=ArrSubTotal.get(i);
-                jml=ArrJumlahTiket.get(i);
-                tgl=ArrTanggal.get(i);
-                tbl.addRow(new Object[]{no,jns,jml,setIDR(subs),tgl});
-        }
+        } else {
+            for (int i = 0; i < jenisWisata.size(); i++) {
+                no = i + 1;
+                jns = jenisWisata.get(i);
+                subs = ArrSubTotal.get(i);
+                jml = ArrJumlahTiket.get(i);
+                tgl = ArrTanggal.get(i);
+                tbl.addRow(new Object[]{no, jns, jml, setIDR(subs), tgl});
+            }
         }
     }//GEN-LAST:event_formComponentShown
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        //choose locatioan for save
+        FileOutputStream excelFou = null;
+        XSSFWorkbook exExporter = null;
+        BufferedOutputStream excelBou = null;
+        JFileChooser chooser = new JFileChooser("C:\\Users\\djavu\\Desktop");
+        chooser.setDialogTitle("Save As");
+        FileNameExtensionFilter ex = new FileNameExtensionFilter("EXCEL FILE", "xls", "xlsx", "xlsm");
+        chooser.setFileFilter(ex);
+        int exChooser = chooser.showSaveDialog(null);
+        if (exChooser == JFileChooser.APPROVE_OPTION) {
+
+            try {
+                exExporter = new XSSFWorkbook();
+                XSSFSheet exSheet = exExporter.createSheet("JTable Sheet");
+                for (int i = 0; i < tblPembelian.getRowCount(); i++) {
+                    XSSFRow excelRow = exSheet.createRow(i);
+                    for (int j = 0; j < tblPembelian.getColumnCount(); j++) {
+                        XSSFCell excelCell = excelRow.createCell(j);
+                        excelCell.setCellValue(tblPembelian.getValueAt(i, j).toString());
+                    }
+                }
+                excelFou = new FileOutputStream(chooser.getSelectedFile() + ".xlsx");
+                excelBou = new BufferedOutputStream(excelFou);
+                exExporter.write(excelBou);
+                JOptionPane.showMessageDialog(null, "Success");
+            } catch (FileNotFoundException ex1) {
+                ex1.printStackTrace();
+            } catch (IOException ex1) {
+                ex1.printStackTrace();
+            } finally {
+                try {
+                    if (excelBou != null) {
+                        excelBou.close();
+                    }
+                    if (excelFou != null) {
+                        excelFou.close();
+                    }
+                    
+                    if (exExporter != null) {
+                        exExporter.close();
+                    }
+
+                } catch (IOException ex1) {
+                    ex1.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnExportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,11 +272,12 @@ public class DataPembelian extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDel;
+    private javax.swing.JButton btnExport;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPembelian;

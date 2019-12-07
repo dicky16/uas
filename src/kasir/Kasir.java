@@ -498,12 +498,12 @@ public class Kasir extends javax.swing.JFrame {
         return ArrHarga;
     }
     
-    public static int getKembalian(int byr, int ttl){
+    private static int getKembalian(int byr, int ttl){
         int kembali = byr-ttl;
         return kembali;
     }
    
-    public static int getTotal() {
+    private static int getTotal() {
         int hasil = 0;
         for (int harga : tHarga){
                 hasil += harga;
@@ -511,14 +511,14 @@ public class Kasir extends javax.swing.JFrame {
         return hasil;
     }
 
-    public void clear(){
+    private void clear(){
          if(mdlJumlahHarga.size() > 0){
          mdlJumlahHarga.removeAllElements();
          mdlJumlahHarga.clear();
          listBarangHarga.removeAll();
          }
         }
-    public void clearListBarang(){
+    private void clearListBarang(){
          if(mdlNamaBarang.size() > 0){
          mdlNamaBarang.removeAllElements();
          mdlNamaBarang.clear();
@@ -526,7 +526,7 @@ public class Kasir extends javax.swing.JFrame {
          }
         }
     
-    public static boolean containsIgnoreCase(String str, String subString) {
+    private static boolean containsIgnoreCase(String str, String subString) {
         return str.toLowerCase().contains(subString.toLowerCase());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
