@@ -136,12 +136,6 @@ public class Kasir extends javax.swing.JFrame {
 
         jLabel5.setText("Kembalian");
 
-        tKembalian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tKembalianActionPerformed(evt);
-            }
-        });
-
         lNamaBarang.setBackground(new java.awt.Color(255, 255, 255));
         lNamaBarang.setForeground(new java.awt.Color(0, 0, 0));
         lNamaBarang.setModel(new javax.swing.AbstractListModel<String>() {
@@ -381,10 +375,6 @@ public class Kasir extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnBayarActionPerformed
 
-    private void tKembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKembalianActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tKembalianActionPerformed
-
     private void tSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tSearchKeyReleased
 
         clearListBarang();
@@ -521,7 +511,7 @@ public class Kasir extends javax.swing.JFrame {
         return hasil;
     }
 
-        public void clear(){
+    public void clear(){
          if(mdlJumlahHarga.size() > 0){
          mdlJumlahHarga.removeAllElements();
          mdlJumlahHarga.clear();

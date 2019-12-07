@@ -5,12 +5,15 @@
  */
 package tiket;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import static tiket.Fungsi.getJumlah;
 import static tiket.Fungsi.getSubTotal;
 import static tiket.Fungsi.getTotal;
 import static tiket.Fungsi.setArray;
+import static tiket.Fungsi.setIDR;
 /**
  *
  * @author djavu
@@ -219,6 +222,7 @@ public class EGP extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cTiket1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTiket1ActionPerformed
@@ -293,6 +297,7 @@ public class EGP extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHitungActionPerformed
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        
         int jml,jml2,jml3,subs,jumlah;
         String jenis1,jenis2,jenis3,tgl,jenis,tanggal;
         Date date = new Date();
@@ -302,9 +307,7 @@ public class EGP extends javax.swing.JFrame {
         jenis1 = cTiket1.getText();
         jenis2 = cTiket2.getText();
         jenis3 = cTiket3.getText();
-        if(jml==0||jml2==0||jml3==0){
-            JOptionPane.showMessageDialog(this, "Jumlah tiket kosong !");
-        }
+        
         if(txtTotal.getText().equals("0")){
             JOptionPane.showMessageDialog(this, "Silahkan hitung terlebih dahulu !");
         }else{
@@ -316,7 +319,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
             jumlah = getJumlah(jml,jml2);
@@ -326,7 +329,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+           +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
             jumlah = getJumlah(jml,jml3);
@@ -336,7 +339,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()){
             jumlah = jml;
@@ -346,7 +349,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket2.isSelected()){
             jumlah = jml2;
@@ -356,7 +359,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket3.isSelected()){
             jumlah = jml3;
@@ -366,7 +369,7 @@ public class EGP extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
           JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else{
             JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");

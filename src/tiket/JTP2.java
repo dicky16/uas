@@ -5,12 +5,15 @@
  */
 package tiket;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import static tiket.Fungsi.getJumlah;
 import static tiket.Fungsi.getSubTotal;
 import static tiket.Fungsi.getTotal;
 import static tiket.Fungsi.setArray;
+import static tiket.Fungsi.setIDR;
 
 /**
  *
@@ -160,7 +163,7 @@ public class JTP2 extends javax.swing.JFrame {
                                 .addComponent(txtSubTiket1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cTiket3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
                         .addComponent(lblTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50)
                         .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +173,7 @@ public class JTP2 extends javax.swing.JFrame {
                             .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnBayar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 600, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(56, 56, 56)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -209,9 +212,11 @@ public class JTP2 extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        
         int jml,jml2,jml3,subs,jumlah;
         String jenis1,jenis2,jenis3,tgl,jenis,tanggal;
         Date date = new Date();
@@ -221,9 +226,7 @@ public class JTP2 extends javax.swing.JFrame {
         jenis1 = cTiket1.getText();
         jenis2 = cTiket2.getText();
         jenis3 = cTiket3.getText();
-        if(jml==0||jml2==0||jml3==0){
-            JOptionPane.showMessageDialog(this, "Jumlah tiket kosong !");
-        }
+        
         if(txtTotal.getText().equals("0")){
             JOptionPane.showMessageDialog(this, "Silahkan hitung terlebih dahulu !");
         }else{
@@ -235,7 +238,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
             jumlah = getJumlah(jml,jml2);
@@ -245,7 +248,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
             jumlah = getJumlah(jml,jml3);
@@ -255,7 +258,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket1.isSelected()){
             jumlah = jml;
@@ -265,7 +268,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket2.isSelected()){
             jumlah = jml2;
@@ -275,7 +278,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+           +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else if(cTiket3.isSelected()){
             jumlah = jml3;
@@ -285,7 +288,7 @@ public class JTP2 extends javax.swing.JFrame {
             setArray(jenis,tgl,subs,jumlah);
            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
             +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+subs+"\n"
+            +"Total : "+setIDR(subs)+"\n"
             +"Tanggal Pembelian : "+tgl);
         }else{
             JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");

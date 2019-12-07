@@ -5,14 +5,23 @@
  */
 package tiket;
 
+
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import static tiket.Data.ArrJumlahTiket;
 import static tiket.Data.ArrSubTotal;
 import static tiket.Data.ArrTanggal;
 import static tiket.Data.jenisWisata;
 import static tiket.Fungsi.delAll;
 import static tiket.Fungsi.delArray;
+import static tiket.Fungsi.setIDR;
+import static tiket.Fungsi.setKolom;
+
+
 
 
 /**
@@ -64,11 +73,6 @@ public class DataPembelian extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblPembelian.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                tblPembelianComponentShown(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblPembelian);
 
         btnClear.setText("Clear");
@@ -92,14 +96,11 @@ public class DataPembelian extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClear)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(btnDel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClear)
+                .addContainerGap(812, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,16 +115,14 @@ public class DataPembelian extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tblPembelianComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tblPembelianComponentShown
-        
-        
-    }//GEN-LAST:event_tblPembelianComponentShown
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         int  baris = tblPembelian.getSelectedRow();
-        tbl.removeRow(baris);
+        if(tblPembelian.isRowSelected(baris)){
+            tbl.removeRow(baris);
+        }
         delArray(baris);
     }//GEN-LAST:event_btnDelActionPerformed
 
@@ -134,7 +133,9 @@ public class DataPembelian extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-       tblPembelian.setModel(tbl);
+        
+        tblPembelian.setModel(tbl);
+        setKolom(tblPembelian);
         String jns = null,tgl = null;
         int subs = 0,jml = 0;
         int no;
@@ -147,7 +148,7 @@ public class DataPembelian extends javax.swing.JFrame {
                 subs=ArrSubTotal.get(i);
                 jml=ArrJumlahTiket.get(i);
                 tgl=ArrTanggal.get(i);
-                tbl.addRow(new Object[]{no,jns,jml,subs,tgl});
+                tbl.addRow(new Object[]{no,jns,jml,setIDR(subs),tgl});
         }
         }
     }//GEN-LAST:event_formComponentShown
@@ -187,6 +188,7 @@ public class DataPembelian extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;

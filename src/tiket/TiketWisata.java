@@ -5,12 +5,17 @@
  */
 package tiket;
 
+import home.Home;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author djavu
  */
 public class TiketWisata extends javax.swing.JFrame {
-
+    
+    DefaultComboBoxModel <String> mdlJenisWisata  = new DefaultComboBoxModel <>();
     /**
      * Creates new form TiketWisata
      */
@@ -27,59 +32,50 @@ public class TiketWisata extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnJTP1 = new javax.swing.JButton();
-        btnJTP2 = new javax.swing.JButton();
-        btnJTP3 = new javax.swing.JButton();
-        btnEGP = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        cJenisWisata = new javax.swing.JComboBox<>();
+        btnBeli = new javax.swing.JButton();
+        btnLihatData = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
+        jTextField1.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnJTP1.setBackground(new java.awt.Color(0, 153, 255));
-        btnJTP1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnJTP1.setForeground(new java.awt.Color(255, 255, 255));
-        btnJTP1.setText("JATIM PARK 1");
-        btnJTP1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJTP1ActionPerformed(evt);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
             }
         });
 
-        btnJTP2.setBackground(new java.awt.Color(0, 153, 255));
-        btnJTP2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnJTP2.setForeground(new java.awt.Color(255, 255, 255));
-        btnJTP2.setText("JATIM PARK 2");
-        btnJTP2.addActionListener(new java.awt.event.ActionListener() {
+        cJenisWisata.setBackground(new java.awt.Color(0, 153, 204));
+        cJenisWisata.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        cJenisWisata.setForeground(new java.awt.Color(255, 255, 255));
+        cJenisWisata.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnBeli.setBackground(new java.awt.Color(0, 204, 204));
+        btnBeli.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        btnBeli.setText("Beli Tiket");
+        btnBeli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJTP2ActionPerformed(evt);
+                btnBeliActionPerformed(evt);
             }
         });
 
-        btnJTP3.setBackground(new java.awt.Color(0, 153, 255));
-        btnJTP3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnJTP3.setForeground(new java.awt.Color(255, 255, 255));
-        btnJTP3.setText("JATIM PARK 3");
-        btnJTP3.addActionListener(new java.awt.event.ActionListener() {
+        btnLihatData.setBackground(new java.awt.Color(0, 204, 204));
+        btnLihatData.setFont(new java.awt.Font("Dialog", 1, 30)); // NOI18N
+        btnLihatData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/penjualan.png"))); // NOI18N
+        btnLihatData.setText("Data Penjualan");
+        btnLihatData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJTP3ActionPerformed(evt);
+                btnLihatDataActionPerformed(evt);
             }
         });
 
-        btnEGP.setBackground(new java.awt.Color(0, 153, 255));
-        btnEGP.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnEGP.setForeground(new java.awt.Color(255, 255, 255));
-        btnEGP.setText("ECO GREEN PARK");
-        btnEGP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEGPActionPerformed(evt);
-            }
-        });
+        jMenu1.setText("Menu");
 
-        jMenu1.setText("File");
-
-        jMenuItem1.setText("Data Penjualan");
+        jMenuItem1.setText("Home");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jMenuItem1MousePressed(evt);
@@ -96,62 +92,71 @@ public class TiketWisata extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnJTP1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnJTP2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnJTP3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEGP, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(210, 210, 210)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cJenisWisata, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLihatData)
+                    .addComponent(btnBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnJTP1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnJTP2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnJTP3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEGP, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(178, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(btnLihatData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cJenisWisata, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(btnBeli)
+                .addGap(112, 112, 112))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnJTP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJTP1ActionPerformed
-        JTP1 jtp1 = new JTP1();
-        jtp1.setLocationRelativeTo(this);
-        jtp1.setVisible(true);
-    }//GEN-LAST:event_btnJTP1ActionPerformed
-
-    private void btnJTP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJTP2ActionPerformed
-        JTP2 jtp2 = new JTP2();
-        jtp2.setLocationRelativeTo(this);
-        jtp2.setVisible(true);
-    }//GEN-LAST:event_btnJTP2ActionPerformed
-
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
+        Home home = new Home();
+        home.setLocationRelativeTo(this);
+        home.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenuItem1MousePressed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        mdlJenisWisata.addElement("Pilih Wisata");
+        mdlJenisWisata.addElement("Jatim Park 1");
+        mdlJenisWisata.addElement("Jatim Park 2");
+        mdlJenisWisata.addElement("Jatim Park 3");
+        mdlJenisWisata.addElement("Eco Green Park");
+        cJenisWisata.setModel(mdlJenisWisata);
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeliActionPerformed
+        JTP1 jtp1 = new JTP1();
+        JTP2 jtp2 = new JTP2();
+        JTP3 jtp3 = new JTP3();
+        EGP egp = new EGP();
+        if(cJenisWisata.getSelectedItem().equals("Jatim Park 1")){
+            jtp1.setLocationRelativeTo(this);
+            jtp1.setVisible(true);
+        }else if(cJenisWisata.getSelectedItem().equals("Jatim Park 2")){
+            jtp2.setLocationRelativeTo(this);
+            jtp2.setVisible(true);
+        }else if(cJenisWisata.getSelectedItem().equals("Jatim Park 3")){
+            jtp3.setLocationRelativeTo(this);
+            jtp3.setVisible(true);
+        }else if(cJenisWisata.getSelectedItem().equals("Eco Green Park")){
+            egp.setLocationRelativeTo(this);
+            egp.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Silahkan pilih jenis wisata", "Pilih jenis wisata !", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBeliActionPerformed
+
+    private void btnLihatDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatDataActionPerformed
         DataPembelian data = new DataPembelian();
         data.setLocationRelativeTo(this);
         data.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1MousePressed
-
-    private void btnJTP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJTP3ActionPerformed
-        JTP3 jtp3 = new JTP3();
-        jtp3.setLocationRelativeTo(this);
-        jtp3.setVisible(true);
-    }//GEN-LAST:event_btnJTP3ActionPerformed
-
-    private void btnEGPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEGPActionPerformed
-
-        EGP egp = new EGP();
-        egp.setLocationRelativeTo(this);
-        egp.setVisible(true);
-    }//GEN-LAST:event_btnEGPActionPerformed
+    }//GEN-LAST:event_btnLihatDataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,12 +194,12 @@ public class TiketWisata extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEGP;
-    private javax.swing.JButton btnJTP1;
-    private javax.swing.JButton btnJTP2;
-    private javax.swing.JButton btnJTP3;
+    private javax.swing.JButton btnBeli;
+    private javax.swing.JButton btnLihatData;
+    private javax.swing.JComboBox<String> cJenisWisata;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
