@@ -5,21 +5,9 @@
  */
 package tiket;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import javax.swing.JFileChooser;
+
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import static tiket.Data.ArrJumlahTiket;
 import static tiket.Data.ArrSubTotal;
 import static tiket.Data.ArrTanggal;
@@ -28,22 +16,23 @@ import static tiket.Fungsi.delAll;
 import static tiket.Fungsi.delArray;
 import static tiket.Fungsi.setIDR;
 import static tiket.Fungsi.setKolom;
+import static tiket.Fungsi.setExportExcel;
 
 /**
  *
  * @author djavu
  */
-public class DataPembelian extends javax.swing.JFrame {
+public class DataPenjualan extends javax.swing.JFrame {
 
     int baris = 0;
     static Object kolom[] = {"No.", "Jenis", "Jumlah", "Total Harga", "Tanggal"};
     DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
-
+    
     ;
     /**
      * Creates new form DataPengunjung
      */
-    public DataPembelian() {
+    public DataPenjualan() {
         initComponents();
     }
 
@@ -189,52 +178,7 @@ public class DataPembelian extends javax.swing.JFrame {
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
         //choose locatioan for save
-        FileOutputStream excelFou = null;
-        XSSFWorkbook exExporter = null;
-        BufferedOutputStream excelBou = null;
-        JFileChooser chooser = new JFileChooser("C:\\Users\\djavu\\Desktop");
-        chooser.setDialogTitle("Save As");
-        FileNameExtensionFilter ex = new FileNameExtensionFilter("EXCEL FILE", "xls", "xlsx", "xlsm");
-        chooser.setFileFilter(ex);
-        int exChooser = chooser.showSaveDialog(null);
-        if (exChooser == JFileChooser.APPROVE_OPTION) {
-
-            try {
-                exExporter = new XSSFWorkbook();
-                XSSFSheet exSheet = exExporter.createSheet("JTable Sheet");
-                for (int i = 0; i < tblPembelian.getRowCount(); i++) {
-                    XSSFRow excelRow = exSheet.createRow(i);
-                    for (int j = 0; j < tblPembelian.getColumnCount(); j++) {
-                        XSSFCell excelCell = excelRow.createCell(j);
-                        excelCell.setCellValue(tblPembelian.getValueAt(i, j).toString());
-                    }
-                }
-                excelFou = new FileOutputStream(chooser.getSelectedFile() + ".xlsx");
-                excelBou = new BufferedOutputStream(excelFou);
-                exExporter.write(excelBou);
-                JOptionPane.showMessageDialog(null, "Success");
-            } catch (FileNotFoundException ex1) {
-                ex1.printStackTrace();
-            } catch (IOException ex1) {
-                ex1.printStackTrace();
-            } finally {
-                try {
-                    if (excelBou != null) {
-                        excelBou.close();
-                    }
-                    if (excelFou != null) {
-                        excelFou.close();
-                    }
-                    
-                    if (exExporter != null) {
-                        exExporter.close();
-                    }
-
-                } catch (IOException ex1) {
-                    ex1.printStackTrace();
-                }
-            }
-        }
+        setExportExcel(tblPembelian);
     }//GEN-LAST:event_btnExportActionPerformed
 
     /**
@@ -254,21 +198,23 @@ public class DataPembelian extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DataPembelian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataPenjualan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DataPembelian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataPenjualan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DataPembelian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataPenjualan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DataPembelian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataPenjualan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DataPembelian().setVisible(true);
+                new DataPenjualan().setVisible(true);
             }
         });
     }

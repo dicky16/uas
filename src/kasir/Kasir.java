@@ -5,8 +5,8 @@
  */
 package kasir;
 
-
 import home.Home;
+import static tiket.Fungsi.setExportExcel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,19 +20,22 @@ import javax.swing.table.DefaultTableModel;
  * @author djavu
  */
 public class Kasir extends javax.swing.JFrame {
+
     //deklarasi
-    
-//    static int byr;
-//    static int ttl;
-    static List <Integer> tHarga = new ArrayList<Integer>();
+    static List<Integer> tHarga = new ArrayList<Integer>();
     DefaultListModel mdlNamaBarang = new DefaultListModel();
     DefaultListModel mdlJumlahHarga = new DefaultListModel();
     JList listBarangHarga = new JList(mdlJumlahHarga);
-    int baris =0;
-    static Object kolom [] = {"jumlah Item","Total Harga","Tanggal"};
+    int baris = 0;
+    static Object kolom[] = {"No.", "jumlah Item", "Total Harga", "Tanggal"};
     DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
-    List <String> ArrayBarang = new ArrayList<String>();
-    ArrayList<Integer> listTable = new ArrayList<>();
+    List<String> ArrayBarang = new ArrayList<String>();
+//    ArrayList<Integer> listTable = new ArrayList<>();
+    //array tabel
+    static ArrayList<Integer> ArrJumlahItem = new ArrayList<>();
+    static ArrayList<Integer> ArrTotal = new ArrayList<>();
+    static ArrayList<Date> ArrTanggal = new ArrayList<>();
+
     /**
      * Creates new form kasir
      */
@@ -72,6 +75,7 @@ public class Kasir extends javax.swing.JFrame {
         btnClearTable = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnDeleteListBarang = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenu = new javax.swing.JMenu();
         mMenu = new javax.swing.JMenuItem();
@@ -175,6 +179,13 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
+        btnExport.setText("Export(Excel)");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
         jmenu.setText("File");
 
         mMenu.setText("Home");
@@ -242,6 +253,8 @@ public class Kasir extends javax.swing.JFrame {
                                 .addComponent(btnDelete)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnClearTable)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExport)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -287,20 +300,22 @@ public class Kasir extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClearTable)
-                    .addComponent(btnDelete))
+                    .addComponent(btnDelete)
+                    .addComponent(btnExport))
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        
+
         String[] listBarang = getListBarang();
-        for (int i = 0;i<listBarang.length;i++){
+        for (int i = 0; i < listBarang.length; i++) {
             mdlNamaBarang.addElement(listBarang[i]);
             lNamaBarang.setModel(mdlNamaBarang);
-        } 
+        }
         tTotalHarga.setEditable(false);
         tKembalian.setEditable(false);
         tPembelian.setModel(tbl);
@@ -317,28 +332,28 @@ public class Kasir extends javax.swing.JFrame {
         int index;
         //get list barang
         String[] listBarang = getListBarang();
-        
-        List <String> ArrayBarang = new ArrayList<String>();
+
+        List<String> ArrayBarang = new ArrayList<String>();
         ArrayBarang = lNamaBarang.getSelectedValuesList();
-        String[] ArrBarang = new String [ArrayBarang.size()];
+        String[] ArrBarang = new String[ArrayBarang.size()];
         ArrBarang = ArrayBarang.toArray(ArrBarang);
         String select = lNamaBarang.getSelectedValue();
-        
+
         //call function find index
-        index = mencari(listBarang,select);
-        Integer[] ArrHarga =getListHarga();
-        if (index==-1){
+        index = mencari(listBarang, select);
+        Integer[] ArrHarga = getListHarga();
+        if (index == -1) {
             JOptionPane.showMessageDialog(this, "kesalahan");
-        }else{
-        for(int i=0; i<ArrayBarang.size(); i++){
-            mdlJumlahHarga.addElement(ArrBarang[i]+" @"+ArrHarga[index]);
-            lHargaJumlah.setModel(mdlJumlahHarga);
-            tHarga.add(ArrHarga[index]);
-            
+        } else {
+            for (int i = 0; i < ArrayBarang.size(); i++) {
+                mdlJumlahHarga.addElement(ArrBarang[i] + " @" + ArrHarga[index]);
+                lHargaJumlah.setModel(mdlJumlahHarga);
+                tHarga.add(ArrHarga[index]);
+
             }
         }
         int hasil = getTotal();
-        tTotalHarga.setText(""+hasil);  
+        tTotalHarga.setText("" + hasil);
     }//GEN-LAST:event_addHargaJumlahActionPerformed
 
     private void tBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tBayarKeyReleased
@@ -346,7 +361,7 @@ public class Kasir extends javax.swing.JFrame {
         int kembalian;
         int total_harga = Integer.parseInt(tTotalHarga.getText());
         int bayar = Integer.parseInt(tBayar.getText());
-        
+
         kembalian = getKembalian(bayar, total_harga);
         tKembalian.setText(String.valueOf(kembalian));
     }//GEN-LAST:event_tBayarKeyReleased
@@ -355,24 +370,28 @@ public class Kasir extends javax.swing.JFrame {
         String total_harga = tTotalHarga.getText().toString();
         Date tgl = new Date();
         int hasil;
-        int total_item;
-        int row;
+        int total_item, row;
         hasil = getTotal();
         total_item = tHarga.size();
-        
-        if(total_harga.equals("")){
+        tbl.getDataVector().removeAllElements();
+        tbl.fireTableDataChanged();
+        if (total_harga.equals("")) {
             JOptionPane.showMessageDialog(this, "Data masih kosong");
-        }else{
-            tbl.addRow(new Object[]{total_item,hasil,tgl});
-            tPembelian.setModel(tbl); 
-        tTotalHarga.setText("");
-        tBayar.setText("");
-        tKembalian.setText("");
-        clear();
-        tHarga.removeAll(tHarga);
+        } else {
+            ArrTotal.add(hasil);
+            ArrJumlahItem.add(total_item);
+            ArrTanggal.add(tgl);
+            for (int i = 0; i < ArrTotal.size(); i++) {
+                row = i + 1;
+                tbl.addRow(new Object[]{row, ArrJumlahItem.get(i), ArrTotal.get(i), ArrTanggal.get(i)});
+            }
+            tPembelian.setModel(tbl);
+            tTotalHarga.setText("");
+            tBayar.setText("");
+            tKembalian.setText("");
+            clear();
+            tHarga.removeAll(tHarga);
         }
-        
-        
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void tSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tSearchKeyReleased
@@ -380,8 +399,8 @@ public class Kasir extends javax.swing.JFrame {
         clearListBarang();
         String[] listBarang = getListBarang();
         String cari = tSearch.getText();
-        for (int i =0;i<listBarang.length;i++){
-            if (containsIgnoreCase(listBarang[i],cari)){
+        for (int i = 0; i < listBarang.length; i++) {
+            if (containsIgnoreCase(listBarang[i], cari)) {
                 mdlNamaBarang.addElement(listBarang[i]);
                 lNamaBarang.setModel(mdlNamaBarang);
             }
@@ -390,14 +409,27 @@ public class Kasir extends javax.swing.JFrame {
 
     private void btnClearTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTableActionPerformed
         tbl.getDataVector().removeAllElements();
+        ArrJumlahItem.removeAll(ArrJumlahItem);
+        ArrTotal.removeAll(ArrTotal);
+        ArrTanggal.removeAll(ArrTanggal);
         tbl.fireTableDataChanged();
     }//GEN-LAST:event_btnClearTableActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int  baris = tPembelian.getSelectedRow();
+        int baris = tPembelian.getSelectedRow();
+        int row;
         tbl.removeRow(baris);
-        listTable.remove(baris);
+        ArrJumlahItem.remove(baris);
+        ArrTotal.remove(baris);
+        ArrTanggal.remove(baris);
+        tbl.getDataVector().removeAllElements();
+        tbl.fireTableDataChanged();
+        for (int i = 0; i < ArrTotal.size(); i++) {
+
+            row = i + 1;
+            tbl.addRow(new Object[]{row, ArrJumlahItem.get(i), ArrTotal.get(i), ArrTanggal.get(i)});
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDeleteListBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteListBarangActionPerformed
@@ -415,8 +447,12 @@ public class Kasir extends javax.swing.JFrame {
         home.setLocationRelativeTo(this);
         this.setVisible(false);
         home.setVisible(true);
-        
+
     }//GEN-LAST:event_mMenuMousePressed
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        setExportExcel(tPembelian);
+    }//GEN-LAST:event_btnExportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -453,17 +489,18 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
     }
-    
+
     //fungsi
-    private static int mencari (String[] nilai, String cari){
-        for (int i =0;i<nilai.length;i++){
-            if (cari.equals(nilai[i])){
+    private static int mencari(String[] nilai, String cari) {
+        for (int i = 0; i < nilai.length; i++) {
+            if (cari.equals(nilai[i])) {
                 return i;
             }
-        }return -1;
+        }
+        return -1;
     }
-    
-    static String[] getListBarang(){
+
+    static String[] getListBarang() {
         ArrayList<String> listBarang = new ArrayList<>();
         listBarang.add("Mie Sedaap Goreng");
         listBarang.add("Mie Sedaap Kuah");
@@ -476,11 +513,12 @@ public class Kasir extends javax.swing.JFrame {
         listBarang.add("Le Mineral 600 ml");
         listBarang.add("Le Mineral 1500 ml");
         //convert arraylist to array barang
-        String[] ArrBarang = new String [listBarang.size()];
+        String[] ArrBarang = new String[listBarang.size()];
         ArrBarang = listBarang.toArray(ArrBarang);
         return ArrBarang;
     }
-    static Integer[] getListHarga(){
+
+    static Integer[] getListHarga() {
         //list harga
         ArrayList<Integer> listHarga = new ArrayList<>();
         listHarga.add(2500);
@@ -498,44 +536,47 @@ public class Kasir extends javax.swing.JFrame {
         ArrHarga = listHarga.toArray(ArrHarga);
         return ArrHarga;
     }
-    
-    private static int getKembalian(int byr, int ttl){
-        int kembali = byr-ttl;
+
+    private static int getKembalian(int byr, int ttl) {
+        int kembali = byr - ttl;
         return kembali;
     }
-   
+
     private static int getTotal() {
         int hasil = 0;
-        for (int harga : tHarga){
-                hasil += harga;
-            }
+        for (int harga : tHarga) {
+            hasil += harga;
+        }
         return hasil;
     }
 
-    private void clear(){
-         if(mdlJumlahHarga.size() > 0){
-         mdlJumlahHarga.removeAllElements();
-         mdlJumlahHarga.clear();
-         listBarangHarga.removeAll();
-         }
+    private void clear() {
+        if (mdlJumlahHarga.size() > 0) {
+            mdlJumlahHarga.removeAllElements();
+            mdlJumlahHarga.clear();
+            listBarangHarga.removeAll();
         }
-    private void clearListBarang(){
-         if(mdlNamaBarang.size() > 0){
-         mdlNamaBarang.removeAllElements();
-         mdlNamaBarang.clear();
-         lNamaBarang.removeAll();
-         }
+    }
+
+    private void clearListBarang() {
+        if (mdlNamaBarang.size() > 0) {
+            mdlNamaBarang.removeAllElements();
+            mdlNamaBarang.clear();
+            lNamaBarang.removeAll();
         }
-    
+    }
+
     private static boolean containsIgnoreCase(String str, String subString) {
         return str.toLowerCase().contains(subString.toLowerCase());
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addHargaJumlah;
     private javax.swing.JButton btnBayar;
     private javax.swing.JButton btnClearTable;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteListBarang;
+    private javax.swing.JButton btnExport;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

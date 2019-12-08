@@ -153,7 +153,7 @@ public class TiketWisata extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBeliActionPerformed
 
     private void btnLihatDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatDataActionPerformed
-        DataPembelian data = new DataPembelian();
+        DataPenjualan data = new DataPenjualan();
         data.setLocationRelativeTo(this);
         data.setVisible(true);
     }//GEN-LAST:event_btnLihatDataActionPerformed
