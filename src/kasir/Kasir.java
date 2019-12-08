@@ -337,8 +337,11 @@ public class Kasir extends javax.swing.JFrame {
         ArrayBarang = lNamaBarang.getSelectedValuesList();
         String[] ArrBarang = new String[ArrayBarang.size()];
         ArrBarang = ArrayBarang.toArray(ArrBarang);
-        String select = lNamaBarang.getSelectedValue();
-
+        if(lNamaBarang.isSelectionEmpty()){
+            JOptionPane.showMessageDialog(this, "Pilih barang terlebih dahulu");
+        }else{
+            String select = lNamaBarang.getSelectedValue();
+        
         //call function find index
         index = mencari(listBarang, select);
         Integer[] ArrHarga = getListHarga();
@@ -354,6 +357,8 @@ public class Kasir extends javax.swing.JFrame {
         }
         int hasil = getTotal();
         tTotalHarga.setText("" + hasil);
+        }
+        
     }//GEN-LAST:event_addHargaJumlahActionPerformed
 
     private void tBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tBayarKeyReleased
