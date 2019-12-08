@@ -337,28 +337,28 @@ public class Kasir extends javax.swing.JFrame {
         ArrayBarang = lNamaBarang.getSelectedValuesList();
         String[] ArrBarang = new String[ArrayBarang.size()];
         ArrBarang = ArrayBarang.toArray(ArrBarang);
-        if(lNamaBarang.isSelectionEmpty()){
+        if (lNamaBarang.isSelectionEmpty()) {
             JOptionPane.showMessageDialog(this, "Pilih barang terlebih dahulu");
-        }else{
-            String select = lNamaBarang.getSelectedValue();
-        
-        //call function find index
-        index = mencari(listBarang, select);
-        Integer[] ArrHarga = getListHarga();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "kesalahan");
         } else {
-            for (int i = 0; i < ArrayBarang.size(); i++) {
-                mdlJumlahHarga.addElement(ArrBarang[i] + " @" + ArrHarga[index]);
-                lHargaJumlah.setModel(mdlJumlahHarga);
-                tHarga.add(ArrHarga[index]);
+            String select = lNamaBarang.getSelectedValue();
 
+            //call function find index
+            index = mencari(listBarang, select);
+            Integer[] ArrHarga = getListHarga();
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "kesalahan");
+            } else {
+                for (int i = 0; i < ArrayBarang.size(); i++) {
+                    mdlJumlahHarga.addElement(ArrBarang[i] + " @" + ArrHarga[index]);
+                    lHargaJumlah.setModel(mdlJumlahHarga);
+                    tHarga.add(ArrHarga[index]);
+
+                }
             }
+            int hasil = getTotal();
+            tTotalHarga.setText("" + hasil);
         }
-        int hasil = getTotal();
-        tTotalHarga.setText("" + hasil);
-        }
-        
+
     }//GEN-LAST:event_addHargaJumlahActionPerformed
 
     private void tBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tBayarKeyReleased
@@ -413,6 +413,9 @@ public class Kasir extends javax.swing.JFrame {
     }//GEN-LAST:event_tSearchKeyReleased
 
     private void btnClearTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTableActionPerformed
+        if(tbl.getDataVector().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Data Sudah Kosong");
+        }
         tbl.getDataVector().removeAllElements();
         ArrJumlahItem.removeAll(ArrJumlahItem);
         ArrTotal.removeAll(ArrTotal);
@@ -424,17 +427,23 @@ public class Kasir extends javax.swing.JFrame {
         // TODO add your handling code here:
         int baris = tPembelian.getSelectedRow();
         int row;
-        tbl.removeRow(baris);
-        ArrJumlahItem.remove(baris);
-        ArrTotal.remove(baris);
-        ArrTanggal.remove(baris);
-        tbl.getDataVector().removeAllElements();
-        tbl.fireTableDataChanged();
-        for (int i = 0; i < ArrTotal.size(); i++) {
+        if (tPembelian.isRowSelected(baris)) {
+            tbl.removeRow(baris);
+            ArrJumlahItem.remove(baris);
+            ArrTotal.remove(baris);
+            ArrTanggal.remove(baris);
+            tbl.getDataVector().removeAllElements();
+            tbl.fireTableDataChanged();
+            for (int i = 0; i < ArrTotal.size(); i++) {
 
-            row = i + 1;
-            tbl.addRow(new Object[]{row, ArrJumlahItem.get(i), ArrTotal.get(i), ArrTanggal.get(i)});
+                row = i + 1;
+                tbl.addRow(new Object[]{row, ArrJumlahItem.get(i), ArrTotal.get(i), ArrTanggal.get(i)});
+            }
+
+        } else {
+                JOptionPane.showMessageDialog(this, "Tidak ada data yang dipilih");
         }
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDeleteListBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteListBarangActionPerformed
@@ -456,7 +465,12 @@ public class Kasir extends javax.swing.JFrame {
     }//GEN-LAST:event_mMenuMousePressed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
-        setExportExcel(tPembelian);
+        if (tbl.getDataVector().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tidak ada data yang di export", "Tabel Kosong !", JOptionPane.WARNING_MESSAGE);
+        } else {
+            setExportExcel(tPembelian);
+        }
+
     }//GEN-LAST:event_btnExportActionPerformed
 
     /**

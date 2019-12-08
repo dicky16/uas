@@ -150,6 +150,9 @@ public class DataPenjualan extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDelActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        if(tbl.getDataVector().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Data Sudah Kosong");
+        }
         tbl.getDataVector().removeAllElements();
         delAll();
         tbl.fireTableDataChanged();
