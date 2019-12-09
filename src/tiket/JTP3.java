@@ -121,6 +121,11 @@ public class JTP3 extends javax.swing.JFrame {
 
         cTiket1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket1.setText("FUN TECH 40K");
+        cTiket1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket1ItemStateChanged(evt);
+            }
+        });
         cTiket1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cTiket1ActionPerformed(evt);
@@ -129,9 +134,19 @@ public class JTP3 extends javax.swing.JFrame {
 
         cTiket2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket2.setText("TIKET GALERI MUSIK DUNIA");
+        cTiket2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket2ItemStateChanged(evt);
+            }
+        });
 
         cTiket3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket3.setText("TIKET DINO PARK");
+        cTiket3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket3ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -338,39 +353,121 @@ public class JTP3 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHitungActionPerformed
 
     private void txtJumlahTiket1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket1KeyReleased
-        if(txtJumlahTiket1.getText().equals("")){
-              txtJumlahTiket1.setText("0");
-           txtSubTiket1.setText("0");
-       }else{
+        int b, c, hasil;
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (txtJumlahTiket1.getText().equals("")) {
+            txtJumlahTiket1.setText("0");
+            txtSubTiket1.setText("0");
+        }
         int hrg = Integer.parseInt(lblTiket1.getText());
         int jml = Integer.parseInt(txtJumlahTiket1.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket1.setText(""+sub_total);
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket1.setText("" + sub_total);
+        
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(sub_total, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(sub_total, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
         }
     }//GEN-LAST:event_txtJumlahTiket1KeyReleased
 
     private void txtJumlahTiket2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket2KeyReleased
-        // TODO add your handling code here:
-        if(txtJumlahTiket2.getText().equals("")){
-              txtJumlahTiket2.setText("0");
-           txtSubTiket2.setText("0");
-       }else{
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+//        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (txtJumlahTiket2.getText().equals("")) {
+            txtJumlahTiket2.setText("0");
+            txtSubTiket2.setText("0");
+        }
+
         int hrg = Integer.parseInt(lblTiket2.getText());
         int jml = Integer.parseInt(txtJumlahTiket2.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket2.setText(""+sub_total);
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket2.setText("" + sub_total);
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
         }
     }//GEN-LAST:event_txtJumlahTiket2KeyReleased
 
     private void txtJumlahTiket3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket3KeyReleased
-        if(txtJumlahTiket3.getText().equals("")){
-              txtJumlahTiket3.setText("0");
-           txtSubTiket3.setText("0");
-       }else{
+        int a, b, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+//        c = Integer.parseInt(txtSubTiket3.getText());
+        if (txtJumlahTiket3.getText().equals("")) {
+            txtJumlahTiket3.setText("0");
+            txtSubTiket3.setText("0");
+        }
         int hrg = Integer.parseInt(lblTiket3.getText());
         int jml = Integer.parseInt(txtJumlahTiket3.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket3.setText(""+sub_total);
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket3.setText("" + sub_total);
+
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
         }
     }//GEN-LAST:event_txtJumlahTiket3KeyReleased
 
@@ -390,6 +487,132 @@ public class JTP3 extends javax.swing.JFrame {
         txtSubTiket3.setEditable(false);
         txtTotal.setEditable(false);
     }//GEN-LAST:event_formComponentShown
+
+    private void cTiket1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket1ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket2.isSelected() && cTiket3.isSelected()) {
+                hasil = getJumlah(b, c);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket2.isSelected()) {
+                hasil = b;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket3.isSelected()) {
+                hasil = c;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+    }//GEN-LAST:event_cTiket1ItemStateChanged
+
+    private void cTiket2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket2ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket1.isSelected() && cTiket3.isSelected()) {
+                hasil = getJumlah(a, c);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket1.isSelected()) {
+                hasil = a;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket3.isSelected()) {
+                hasil = c;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+    }//GEN-LAST:event_cTiket2ItemStateChanged
+
+    private void cTiket3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket3ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket1.isSelected() && cTiket2.isSelected()) {
+                hasil = getJumlah(a, b);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket1.isSelected()) {
+                hasil = a;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket2.isSelected()) {
+                hasil = b;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+    }//GEN-LAST:event_cTiket3ItemStateChanged
 
     /**
      * @param args the command line arguments

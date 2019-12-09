@@ -5,7 +5,6 @@
  */
 package tiket;
 
-
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,11 +19,12 @@ import static tiket.Fungsi.setIDR;
  * @author djavu
  */
 public class JTP1 extends javax.swing.JFrame {
-    
 
     int baris = 0;
-    static Object kolom [] = {"Jenis","Jumlah","Total Harga","Tanggal"};
-    DefaultTableModel tbl = new DefaultTableModel(kolom,baris);;
+    static Object kolom[] = {"Jenis", "Jumlah", "Total Harga", "Tanggal"};
+    DefaultTableModel tbl = new DefaultTableModel(kolom, baris);
+
+    ;
     /**
      * Creates new form JTP1
      */
@@ -56,7 +56,6 @@ public class JTP1 extends javax.swing.JFrame {
         btnBayar = new javax.swing.JButton();
         txtJumlahTiket3 = new javax.swing.JTextField();
         txtJumlahTiket2 = new javax.swing.JTextField();
-        btnHitung = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,9 +67,9 @@ public class JTP1 extends javax.swing.JFrame {
 
         cTiket1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket1.setText("TIKET PAKET 1 (JATIMPARK 1+MUSEUM TUBUH)");
-        cTiket1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cTiket1ActionPerformed(evt);
+        cTiket1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket1ItemStateChanged(evt);
             }
         });
 
@@ -88,6 +87,11 @@ public class JTP1 extends javax.swing.JFrame {
 
         cTiket2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket2.setText("TIKET SAKTI (BERLAKU 2 HARI)");
+        cTiket2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket2ItemStateChanged(evt);
+            }
+        });
 
         lblTiket2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTiket2.setText("375000");
@@ -101,6 +105,11 @@ public class JTP1 extends javax.swing.JFrame {
 
         cTiket3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         cTiket3.setText("TIKET SUPER SAKTI (BERLAKU 3 HARI)");
+        cTiket3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cTiket3ItemStateChanged(evt);
+            }
+        });
 
         txtSubTiket3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -125,14 +134,6 @@ public class JTP1 extends javax.swing.JFrame {
         txtJumlahTiket2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtJumlahTiket2KeyReleased(evt);
-            }
-        });
-
-        btnHitung.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnHitung.setText("Hitung");
-        btnHitung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHitungActionPerformed(evt);
             }
         });
 
@@ -174,9 +175,7 @@ public class JTP1 extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHitung)
-                            .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnBayar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -207,9 +206,7 @@ public class JTP1 extends javax.swing.JFrame {
                     .addComponent(lblTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnHitung)
-                .addGap(18, 18, 18)
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -221,19 +218,6 @@ public class JTP1 extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtJumlahTiket1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket1KeyReleased
-       if(txtJumlahTiket1.getText().equals("")){
-            txtJumlahTiket1.setText("0");
-           txtSubTiket1.setText("0");
-       }else{
-           int hrg = Integer.parseInt(lblTiket1.getText());
-        int jml = Integer.parseInt(txtJumlahTiket1.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket1.setText(""+sub_total);
-       }
-        
-    }//GEN-LAST:event_txtJumlahTiket1KeyReleased
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         txtJumlahTiket1.setText("0");
@@ -247,171 +231,355 @@ public class JTP1 extends javax.swing.JFrame {
         txtSubTiket1.setEditable(false);
         txtSubTiket3.setEditable(false);
         txtTotal.setEditable(false);
-    
+
     }//GEN-LAST:event_formComponentShown
 
     private void txtJumlahTiket3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket3KeyReleased
-        if(txtJumlahTiket3.getText().equals("")){
-           txtJumlahTiket3.setText("0");
-           txtSubTiket3.setText("0");
-       }else{
+        int a, b, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+//        c = Integer.parseInt(txtSubTiket3.getText());
+        if (txtJumlahTiket3.getText().equals("")) {
+            txtJumlahTiket3.setText("0");
+            txtSubTiket3.setText("0");
+        }
         int hrg = Integer.parseInt(lblTiket3.getText());
         int jml = Integer.parseInt(txtJumlahTiket3.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket3.setText(""+sub_total);
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket3.setText("" + sub_total);
+
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
         }
     }//GEN-LAST:event_txtJumlahTiket3KeyReleased
 
-    private void txtJumlahTiket2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket2KeyReleased
-        // TODO add your handling code here:
-        if(txtJumlahTiket2.getText().equals("")){
-             txtJumlahTiket2.setText("0");
-           txtSubTiket2.setText("0");
-       }else{
-        int hrg = Integer.parseInt(lblTiket2.getText());
-        int jml = Integer.parseInt(txtJumlahTiket2.getText());
-        int sub_total = getSubTotal(jml,hrg);
-        txtSubTiket2.setText(""+sub_total);
-        }
-    }//GEN-LAST:event_txtJumlahTiket2KeyReleased
-
-    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
-        int a,b,c,hasil;
-        a = Integer.parseInt(txtSubTiket1.getText());
-        b = Integer.parseInt(txtSubTiket2.getText());
-        c = Integer.parseInt(txtSubTiket3.getText());
-        if(cTiket1.isSelected()&&txtJumlahTiket1.getText().equals("0")){
-            JOptionPane.showMessageDialog(this, "Silahkan isi jumlah tiket !");
-        }else if(cTiket2.isSelected()&&txtJumlahTiket2.getText().equals("0")){
-            JOptionPane.showMessageDialog(this, "Silahkan isi jumlah tiket !");
-        }else if(cTiket3.isSelected()&&txtJumlahTiket3.getText().equals("0")){
-            JOptionPane.showMessageDialog(this, "Silahkan isi jumlah tiket !");
-        }else{
-            if(cTiket1.isSelected()&&cTiket2.isSelected()&&cTiket3.isSelected()){
-            hasil = getTotal(a,b,c);
-            txtTotal.setText(""+hasil);
-        }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
-            hasil = getJumlah(a,b);
-            txtTotal.setText(""+hasil);
-             
-        }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
-             hasil = getJumlah(a,c);
-            txtTotal.setText(""+hasil);
-           
-        }else if(cTiket1.isSelected()){
-            txtTotal.setText(""+a);
-           
-        }else if(cTiket2.isSelected()){
-            txtTotal.setText(""+b);
-            
-        }else if(cTiket3.isSelected()){
-            txtTotal.setText(""+c);
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
-        }
-        }
-        
-        
-    }//GEN-LAST:event_btnHitungActionPerformed
-
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
-        
-        int jml,jml2,jml3,subs,jumlah;
-        String jenis1,jenis2,jenis3,tgl,jenis,tanggal;
+
+        int jml, jml2, jml3, subs, jumlah;
+        String jenis1, jenis2, jenis3, tgl, jenis, tanggal;
         Date date = new Date();
-        
+
         jml = Integer.parseInt(txtJumlahTiket1.getText());
         jml2 = Integer.parseInt(txtJumlahTiket2.getText());
         jml3 = Integer.parseInt(txtJumlahTiket3.getText());
         jenis1 = cTiket1.getText();
         jenis2 = cTiket2.getText();
         jenis3 = cTiket3.getText();
-        if(txtTotal.getText().equals("0")){
+        if (txtTotal.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Silahkan hitung terlebih dahulu !");
-        }else{
-            if(cTiket1.isSelected()&&cTiket2.isSelected()&&cTiket3.isSelected()){
-            jumlah = getTotal(jml,jml2,jml3);
-            jenis = jenis1+","+jenis2+","+jenis3;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-            JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
-            jumlah = getJumlah(jml,jml2);
-            jenis = jenis1+","+jenis2;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
-            jumlah = getJumlah(jml,jml3);
-            jenis = jenis1+","+jenis3;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-             +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else if(cTiket1.isSelected()){
-            jumlah = jml;
-            jenis = jenis1;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-           +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else if(cTiket2.isSelected()){
-            jumlah = jml2;
-            jenis = jenis2;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else if(cTiket3.isSelected()){
-            jumlah = jml3;
-            jenis = jenis3;
-            tgl = date.toString();
-            subs = Integer.parseInt(txtTotal.getText());
-            setArray(jenis,tgl,subs,jumlah);
-             JOptionPane.showMessageDialog(this, "Jenis : "+jenis+"\n"
-            +"Jumlah Tiket : "+jumlah+"\n"
-            +"Total : "+setIDR(subs)+"\n"
-            +"Tanggal Pembelian : "+tgl);
-        }else{
-            JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
+        } else {
+            if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+                jumlah = getTotal(jml, jml2, jml3);
+                jenis = jenis1 + "," + jenis2 + "," + jenis3;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+                jumlah = getJumlah(jml, jml2);
+                jenis = jenis1 + "," + jenis2;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+                jumlah = getJumlah(jml, jml3);
+                jenis = jenis1 + "," + jenis3;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else if (cTiket1.isSelected()) {
+                jumlah = jml;
+                jenis = jenis1;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else if (cTiket2.isSelected()) {
+                jumlah = jml2;
+                jenis = jenis2;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else if (cTiket3.isSelected()) {
+                jumlah = jml3;
+                jenis = jenis3;
+                tgl = date.toString();
+                subs = Integer.parseInt(txtTotal.getText());
+                setArray(jenis, tgl, subs, jumlah);
+                JOptionPane.showMessageDialog(this, "Jenis : " + jenis + "\n"
+                        + "Jumlah Tiket : " + jumlah + "\n"
+                        + "Total : " + setIDR(subs) + "\n"
+                        + "Tanggal Pembelian : " + tgl);
+            } else {
+                JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
+            }
+            txtJumlahTiket1.setText("0");
+            txtJumlahTiket2.setText("0");
+            txtJumlahTiket3.setText("0");
+            txtSubTiket1.setText("0");
+            txtSubTiket2.setText("0");
+            txtSubTiket3.setText("0");
+            txtTotal.setText("0");
+            cTiket1.setSelected(false);
+            cTiket2.setSelected(false);
+            cTiket3.setSelected(false);
+            txtTotal.setEditable(false);
         }
-        txtJumlahTiket1.setText("0");
-        txtJumlahTiket2.setText("0");
-        txtJumlahTiket3.setText("0");
-        txtSubTiket1.setText("0");
-        txtSubTiket2.setText("0");
-        txtSubTiket3.setText("0");
-        txtTotal.setText("0");
-        cTiket1.setSelected(false);
-        cTiket2.setSelected(false);
-        cTiket3.setSelected(false);
-        txtTotal.setEditable(false);
-        }
-        
-        
+
+
     }//GEN-LAST:event_btnBayarActionPerformed
 
-    private void cTiket1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cTiket1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cTiket1ActionPerformed
+    private void cTiket2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket2ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket1.isSelected() && cTiket3.isSelected()) {
+                hasil = getJumlah(a, c);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket1.isSelected()) {
+                hasil = a;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket3.isSelected()) {
+                hasil = c;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+
+    }//GEN-LAST:event_cTiket2ItemStateChanged
+
+    private void cTiket1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket1ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket2.isSelected() && cTiket3.isSelected()) {
+                hasil = getJumlah(b, c);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket2.isSelected()) {
+                hasil = b;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket3.isSelected()) {
+                hasil = c;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+
+    }//GEN-LAST:event_cTiket1ItemStateChanged
+
+    private void cTiket3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cTiket3ItemStateChanged
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            if (cTiket1.isSelected() && cTiket2.isSelected()) {
+                hasil = getJumlah(a, b);
+                txtTotal.setText("" + hasil);
+            } else if (cTiket1.isSelected()) {
+                hasil = a;
+                txtTotal.setText("" + hasil);
+            } else if (cTiket2.isSelected()) {
+                hasil = b;
+                txtTotal.setText("" + hasil);
+            } else {
+                txtTotal.setText("0");
+            }
+        }
+
+    }//GEN-LAST:event_cTiket3ItemStateChanged
+
+    private void txtJumlahTiket2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket2KeyReleased
+        int a, b, c, hasil;
+        a = Integer.parseInt(txtSubTiket1.getText());
+//        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if (txtJumlahTiket2.getText().equals("")) {
+            txtJumlahTiket2.setText("0");
+            txtSubTiket2.setText("0");
+        }
+
+        int hrg = Integer.parseInt(lblTiket2.getText());
+        int jml = Integer.parseInt(txtJumlahTiket2.getText());
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket2.setText("" + sub_total);
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(a, sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(a, sub_total);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(a, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = a;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
+        }
+
+    }//GEN-LAST:event_txtJumlahTiket2KeyReleased
+
+    private void txtJumlahTiket1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket1KeyReleased
+        int b, c, hasil;
+        b = Integer.parseInt(txtSubTiket2.getText());
+        c = Integer.parseInt(txtSubTiket3.getText());
+        if(txtJumlahTiket1.getText()!=""){
+            
+        }
+        if (txtJumlahTiket1.getText().equals("")) {
+            txtJumlahTiket1.setText("0");
+            txtSubTiket1.setText("0");
+        }
+        int hrg = Integer.parseInt(lblTiket1.getText());
+        int jml = Integer.parseInt(txtJumlahTiket1.getText());
+        int sub_total = getSubTotal(jml, hrg);
+        txtSubTiket1.setText("" + sub_total);
+        
+        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getTotal(sub_total, b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
+            hasil = getJumlah(sub_total, b);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(b, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
+            hasil = getJumlah(sub_total, c);
+            txtTotal.setText("" + hasil);
+        } else if (cTiket1.isSelected()) {
+            hasil = sub_total;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket2.isSelected()) {
+            hasil = b;
+            txtTotal.setText("" + hasil);
+        } else if (cTiket3.isSelected()) {
+            hasil = c;
+            txtTotal.setText("" + hasil);
+        } else {
+            txtTotal.setText("0");
+        }
+
+    }//GEN-LAST:event_txtJumlahTiket1KeyReleased
 
     /**
      * @param args the command line arguments
@@ -427,16 +595,21 @@ public class JTP1 extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JTP1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JTP1.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JTP1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JTP1.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JTP1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JTP1.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JTP1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JTP1.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -447,11 +620,10 @@ public class JTP1 extends javax.swing.JFrame {
             }
         });
     }
-    
-     
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBayar;
-    private javax.swing.JButton btnHitung;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cTiket1;
     private javax.swing.JCheckBox cTiket2;
