@@ -44,7 +44,6 @@ public class EGP extends javax.swing.JFrame {
         txtSubTiket3 = new javax.swing.JTextField();
         txtSubTiket2 = new javax.swing.JTextField();
         txtSubTiket1 = new javax.swing.JTextField();
-        btnHitung = new javax.swing.JButton();
         txtTotal = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnBayar = new javax.swing.JButton();
@@ -115,14 +114,6 @@ public class EGP extends javax.swing.JFrame {
 
         txtSubTiket1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        btnHitung.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnHitung.setText("Hitung");
-        btnHitung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHitungActionPerformed(evt);
-            }
-        });
-
         txtTotal.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -188,9 +179,7 @@ public class EGP extends javax.swing.JFrame {
                                     .addGap(369, 369, 369)
                                     .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(56, 56, 56)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnHitung)
-                                        .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addGap(56, 56, 56)
@@ -224,9 +213,7 @@ public class EGP extends javax.swing.JFrame {
                         .addComponent(cTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnHitung)
-                    .addGap(18, 18, 18)
+                    .addGap(59, 59, 59)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1))
@@ -361,36 +348,6 @@ public class EGP extends javax.swing.JFrame {
             txtTotal.setText("0");
         }
     }//GEN-LAST:event_txtJumlahTiket3KeyReleased
-
-    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
-        int a,b,c,hasil;
-        a = Integer.parseInt(txtSubTiket1.getText());
-        b = Integer.parseInt(txtSubTiket2.getText());
-        c = Integer.parseInt(txtSubTiket3.getText());
-        if(cTiket1.isSelected()&&cTiket2.isSelected()&&cTiket3.isSelected()){
-            hasil = getTotal(a,b,c);
-            txtTotal.setText(""+hasil);
-        }else if(cTiket1.isSelected()&&cTiket2.isSelected()){
-            hasil = getJumlah(a,b);
-            txtTotal.setText(""+hasil);
-
-        }else if(cTiket1.isSelected()&&cTiket3.isSelected()){
-            hasil = getJumlah(a,c);
-            txtTotal.setText(""+hasil);
-
-        }else if(cTiket1.isSelected()){
-            txtTotal.setText(""+a);
-
-        }else if(cTiket2.isSelected()){
-            txtTotal.setText(""+b);
-
-        }else if(cTiket3.isSelected()){
-            txtTotal.setText(""+c);
-
-        }else{
-            JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
-        }
-    }//GEN-LAST:event_btnHitungActionPerformed
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
         
@@ -661,7 +618,6 @@ public class EGP extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBayar;
-    private javax.swing.JButton btnHitung;
     private javax.swing.JCheckBox cTiket1;
     private javax.swing.JCheckBox cTiket2;
     private javax.swing.JCheckBox cTiket3;

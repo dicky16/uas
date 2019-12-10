@@ -38,7 +38,6 @@ public class JTP2 extends javax.swing.JFrame {
         btnBayar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
-        btnHitung = new javax.swing.JButton();
         txtSubTiket3 = new javax.swing.JTextField();
         txtSubTiket2 = new javax.swing.JTextField();
         txtSubTiket1 = new javax.swing.JTextField();
@@ -73,14 +72,6 @@ public class JTP2 extends javax.swing.JFrame {
         jLabel1.setText("Total Harga");
 
         txtTotal.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        btnHitung.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnHitung.setText("Hitung");
-        btnHitung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHitungActionPerformed(evt);
-            }
-        });
 
         txtSubTiket3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -181,9 +172,7 @@ public class JTP2 extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHitung)
-                            .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnBayar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 600, Short.MAX_VALUE)
@@ -213,9 +202,7 @@ public class JTP2 extends javax.swing.JFrame {
                     .addComponent(lblTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSubTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtJumlahTiket3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnHitung)
-                .addGap(18, 18, 18)
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -319,37 +306,6 @@ public class JTP2 extends javax.swing.JFrame {
             txtTotal.setEditable(false);
         }
     }//GEN-LAST:event_btnBayarActionPerformed
-
-    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
-        int a, b, c, hasil;
-        a = Integer.parseInt(txtSubTiket1.getText());
-        b = Integer.parseInt(txtSubTiket2.getText());
-        c = Integer.parseInt(txtSubTiket3.getText());
-        if (cTiket1.isSelected() && cTiket2.isSelected() && cTiket3.isSelected()) {
-            hasil = getTotal(a, b, c);
-            txtTotal.setText("" + hasil);
-        } else if (cTiket1.isSelected() && cTiket2.isSelected()) {
-            hasil = getJumlah(a, b);
-            txtTotal.setText("" + hasil);
-
-        } else if (cTiket1.isSelected() && cTiket3.isSelected()) {
-            hasil = getJumlah(a, c);
-            txtTotal.setText("" + hasil);
-
-        } else if (cTiket1.isSelected()) {
-            txtTotal.setText("" + a);
-
-        } else if (cTiket2.isSelected()) {
-            txtTotal.setText("" + b);
-
-        } else if (cTiket3.isSelected()) {
-            txtTotal.setText("" + c);
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Silahkan pilih jenis tiket !");
-        }
-
-    }//GEN-LAST:event_btnHitungActionPerformed
 
     private void txtJumlahTiket1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahTiket1KeyReleased
 
@@ -651,7 +607,6 @@ public class JTP2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBayar;
-    private javax.swing.JButton btnHitung;
     private javax.swing.JCheckBox cTiket1;
     private javax.swing.JCheckBox cTiket2;
     private javax.swing.JCheckBox cTiket3;

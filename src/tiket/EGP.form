@@ -72,10 +72,7 @@
                                   <EmptySpace min="369" pref="369" max="-2" attributes="0"/>
                                   <Component id="txtJumlahTiket3" min="-2" pref="55" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnHitung" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtSubTiket3" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="txtSubTiket3" min="-2" pref="194" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -121,9 +118,7 @@
                       <Component id="txtSubTiket3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtJumlahTiket3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnHitung" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -221,17 +216,6 @@
           <Font name="Dialog" size="14" style="0"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnHitung">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="14" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Hitung"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHitungActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTotal">
       <Properties>
